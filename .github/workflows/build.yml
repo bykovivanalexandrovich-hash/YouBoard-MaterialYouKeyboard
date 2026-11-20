@@ -51,6 +51,7 @@ jobs:
         with:
           tag_name: build-${{ steps.ver.outputs.code }}
           name: YouBoard ${{ steps.ver.outputs.name }}
-          prerelease: true
+          prerelease: false
+          make_latest: true
           body_path: MaterialYouKeyboard/RELEASE_NOTES.md
           files: MaterialYouKeyboard/app/build/outputs/apk/debug/YouBoard.apk
