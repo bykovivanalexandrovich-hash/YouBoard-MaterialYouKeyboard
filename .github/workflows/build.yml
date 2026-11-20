@@ -26,6 +26,12 @@ jobs:
           echo "Using: $best"
           test -n "$best"
           unzip -qo "$best"
+      - name: Read version
+        id: ver
+        run: |
+          f=MaterialYouKeyboard/app/build.gradle.kts
+          echo "code=$(grep -oP 'versionCode\s*=\s*\K[0-9]+' $f)" >> $GITHUB_OUTPUT
+          echo "name=$(grep -oP 'versionName\s*=\s*"\K[^"]+' $f)" >> $GITHUB_OUTPUT
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -43,7 +49,7 @@ jobs:
       - name: Publish release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v5.0-9
-          name: v5.0-9
+          tag_name: build-${{ steps.ver.outputs.code }}
+          name: YouBoard ${{ steps.ver.outputs.name }}
           prerelease: true
           files: MaterialYouKeyboard/app/build/outputs/apk/debug/YouBoard.apk
